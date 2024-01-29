@@ -37,7 +37,7 @@ y_test <- to_categorical(y_test, num_classes)
 # Define Model -----------------------------------------------------------
 
 # Define model
-model <- keras_model_sequential() %>%
+model0 <- keras_model_sequential() %>%
   layer_conv_2d(filters = 32, kernel_size = c(3,3), activation = 'relu',
                 input_shape = input_shape) %>% 
   layer_conv_2d(filters = 64, kernel_size = c(3,3), activation = 'relu') %>% 
@@ -49,27 +49,57 @@ model <- keras_model_sequential() %>%
   layer_dense(units = num_classes, activation = 'softmax')
 
 # Compile model
-model %>% compile(
+model0 %>% compile(
   loss = loss_categorical_crossentropy,
   optimizer = optimizer_adadelta(),
   metrics = c('accuracy')
 )
 
 # Train model
-model %>% fit(
+model0 %>% fit(
   x_train, y_train,
   batch_size = batch_size,
   epochs = epochs,
   validation_split = 0.2
 )
 
-
-
-
-scores <- model %>% evaluate(
+scores <- model0 %>% evaluate(
   x_test, y_test, verbose = 0
 )
 
 # Output metrics
 cat('Test loss:', scores[[1]], '\n')
 cat('Test accuracy:', scores[[2]], '\n')
+
+##########################################################################
+
+model1 <- keras_model_sequential(input_shape = input_shape)
+model1 |>
+  layer_conv_2d(filters = 32, kernel_size = c(3, 3), activation = "relu") |>
+  layer_max_pooling_2d(pool_size = c(2, 2)) |>
+  layer_conv_2d(filters = 64, kernel_size = c(3, 3), activation = "relu") |>
+  layer_max_pooling_2d(pool_size = c(2, 2)) |>
+  layer_flatten() |>
+  layer_dropout(rate = 0.5) |>
+  layer_dense(units = num_classes, activation = "softmax")
+
+summary(model1)
+
+batch_size <- 128
+epochs <- 15
+
+model1 |> compile(
+  loss = "categorical_crossentropy",
+  optimizer = "adam",
+  metrics = "accuracy"
+)
+
+model1 |> fit(
+  x_train, y_train,
+  batch_size = batch_size,
+  epochs = epochs,
+  validation_split = 0.1
+)
+
+score <- model1 |> evaluate(x_test, y_test, verbose=0)
+score
