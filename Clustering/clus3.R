@@ -9,7 +9,6 @@ tree.cent = hclust(d,method="centroid")
 labs.cent = cutree(tree.cent,k=3)
 
 # Minimax linkage
-install.packages("protoclust")
 library(protoclust)
 tree.mm = protoclust(d)
 a = protocut(tree.mm,h=2.5)
