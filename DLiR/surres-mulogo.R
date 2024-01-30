@@ -1,3 +1,4 @@
+# we will start with this file today
 mu.logo <- data.frame(read.csv("mu-logo.csv"))
 lm.fit <- lm(Y~X1+X2+X3+X4+X5, data= mu.logo)
 plot(lm.fit$fitted.values, lm.fit$residuals)
