@@ -42,7 +42,7 @@ s3_dispatch(print(x))
 
 x <- matrix(1:10, nrow = 2)
 s3_dispatch(mean(x))
-s3_dispatch(Sys.time())
+s3_dispatch(sum(Sys.time()))
 
 s3_methods_generic("print")
 s3_methods_class("ordered")
@@ -68,6 +68,7 @@ s3_dispatch(x[1])
 x[1]
 
 `[.secret` <- function(x, i) {
+  print("error")
   new_secret(x[i])
 }
 x[1]
@@ -103,8 +104,8 @@ print.supersecret <- function(x, ...) {
 x2 <- new_supersecret(c(15, 1, 456))
 x2
 
-`[.secret` <- function(x, ...) {
-  new_secret(NextMethod())
+`[.supersecret` <- function(x, ...) {
+  new_supersecret(NextMethod())
 }
 x2[1:3]
 
