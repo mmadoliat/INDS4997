@@ -5,6 +5,8 @@ runApp("Shiny/my_app", display.mode = "showcase")
 
 runApp("Shiny/my_app/app2.R", display.mode = "showcase")
 
+runApp("Shiny/my_app/app3.R", display.mode = "showcase")
+
 runApp("Shiny/census-app", display.mode = "showcase")
 
 
@@ -17,6 +19,7 @@ source("Shiny/census-app/helpers.R")
 counties <- readRDS("Shiny/census-app/data/counties.rds")
 percent_map(counties$white, "darkgreen", "% White")
 
+runApp("Shiny/census-app/app.R", display.mode = "showcase")
 
 runApp("Shiny/census-app/app1.R", display.mode = "showcase")
 
